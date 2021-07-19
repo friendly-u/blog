@@ -20,28 +20,28 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Mist","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
-<meta name="description" content="仅限于集群服务制作证书。">
+<meta name="description" content="Golang字符串操作">
 <meta property="og:type" content="article">
-<meta property="og:title" content="k8s为服务签发证书">
-<meta property="og:url" content="https://github.com/friendly-u/2021/07/19/k8s%E4%B8%BA%E6%9C%8D%E5%8A%A1%E7%AD%BE%E5%8F%91%E8%AF%81%E4%B9%A6/index.html">
+<meta property="og:title" content="Golang字符串操作">
+<meta property="og:url" content="https://github.com/friendly-u/2021/07/19/Golang%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/index.html">
 <meta property="og:site_name" content="Dogbrother">
-<meta property="og:description" content="仅限于集群服务制作证书。">
+<meta property="og:description" content="Golang字符串操作">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-07-19T09:21:41.000Z">
-<meta property="article:modified_time" content="2021-07-19T10:27:35.199Z">
+<meta property="article:published_time" content="2021-07-19T10:41:40.000Z">
+<meta property="article:modified_time" content="2021-07-19T10:44:58.592Z">
 <meta property="article:author" content="Dogbrother">
-<meta property="article:tag" content="k8s">
+<meta property="article:tag" content="golang">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://github.com/friendly-u/2021/07/19/k8s%E4%B8%BA%E6%9C%8D%E5%8A%A1%E7%AD%BE%E5%8F%91%E8%AF%81%E4%B9%A6/">
+<link rel="canonical" href="https://github.com/friendly-u/2021/07/19/Golang%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://github.com/friendly-u/2021/07/19/k8s%E4%B8%BA%E6%9C%8D%E5%8A%A1%E7%AD%BE%E5%8F%91%E8%AF%81%E4%B9%A6/","path":"2021/07/19/k8s为服务签发证书/","title":"k8s为服务签发证书"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://github.com/friendly-u/2021/07/19/Golang%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/","path":"2021/07/19/Golang字符串操作/","title":"Golang字符串操作"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>k8s为服务签发证书 | Dogbrother</title>
+<title>Golang字符串操作 | Dogbrother</title>
   
 
 
@@ -148,7 +148,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%B6%E4%BD%9C%E8%AF%81%E4%B9%A6%E8%84%9A%E6%9C%AC"><span class="nav-number">1.</span> <span class="nav-text">制作证书脚本</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%85%E5%90%AB"><span class="nav-number">1.</span> <span class="nav-text">包含</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9B%BF%E6%8D%A2"><span class="nav-number">2.</span> <span class="nav-text">替换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%9D%E7%95%99%E4%B8%A4%E4%BD%8D%E5%B0%8F%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">保留两位小数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E5%89%B2%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">4.</span> <span class="nav-text">分割字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%A7%E5%B0%8F%E5%86%99"><span class="nav-number">5.</span> <span class="nav-text">字符串大小写</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%87%E5%89%B2%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">6.</span> <span class="nav-text">切割字符串</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -226,7 +226,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://github.com/friendly-u/2021/07/19/k8s%E4%B8%BA%E6%9C%8D%E5%8A%A1%E7%AD%BE%E5%8F%91%E8%AF%81%E4%B9%A6/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/friendly-u/2021/07/19/Golang%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -239,7 +239,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          k8s为服务签发证书
+          Golang字符串操作
         </h1>
 
         <div class="post-meta-container">
@@ -251,16 +251,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2021-07-19 17:21:41 / 修改时间：18:27:35" itemprop="dateCreated datePublished" datetime="2021-07-19T17:21:41+08:00">2021-07-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">开发</span></a>
-        </span>
+      <time title="创建时间：2021-07-19 18:41:40 / 修改时间：18:44:58" itemprop="dateCreated datePublished" datetime="2021-07-19T18:41:40+08:00">2021-07-19</time>
     </span>
 
   
@@ -273,77 +264,33 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>仅限于集群服务制作证书。</p>
+        <p>Golang字符串操作</p>
 <span id="more"></span>
 
-<h4 id="制作证书脚本"><a href="#制作证书脚本" class="headerlink" title="制作证书脚本"></a>制作证书脚本</h4><p>注意：仅限于集群服务制作证书，必须填入参数。参数1为文件夹名，参数2为 集群服务 dogbrother.prj-lee-sin.svc</p>
-<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">mkdir $1
-cd $1
+<h4 id="包含"><a href="#包含" class="headerlink" title="包含"></a>包含</h4><pre class="line-numbers language-go" data-language="go"><code class="language-go">strings<span class="token punctuation">.</span><span class="token function">Contains</span><span class="token punctuation">(</span><span class="token string">"I'll chop up this carrot"</span><span class="token punctuation">,</span> <span class="token string">"carrot"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>包含返回true</p>
+<h4 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h4><pre class="line-numbers language-go" data-language="go"><code class="language-go">strings<span class="token punctuation">.</span><span class="token function">ReplaceAll</span><span class="token punctuation">(</span><span class="token string">"one night of love"</span><span class="token punctuation">,</span> <span class="token string">"one"</span><span class="token punctuation">,</span> <span class="token string">"all"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-cat &gt; ca-config.json &lt;&lt;EOF
-&#123;
-  &quot;signing&quot;: &#123;
-    &quot;default&quot;: &#123;
-      &quot;expiry&quot;: &quot;8760h&quot;
-    &#125;,
-    &quot;profiles&quot;: &#123;
-      &quot;server&quot;: &#123;
-        &quot;usages&quot;: [&quot;signing&quot;, &quot;key encipherment&quot;, &quot;server auth&quot;, &quot;client auth&quot;],
-        &quot;expiry&quot;: &quot;8760h&quot;
-      &#125;
-    &#125;
-  &#125;
-&#125;
-EOF
+<h4 id="保留两位小数"><a href="#保留两位小数" class="headerlink" title="保留两位小数"></a>保留两位小数</h4><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">decimal</span><span class="token punctuation">(</span>value <span class="token builtin">float64</span><span class="token punctuation">)</span> <span class="token builtin">float64</span> <span class="token punctuation">&#123;</span>
+	<span class="token keyword">return</span> math<span class="token punctuation">.</span><span class="token function">Trunc</span><span class="token punctuation">(</span>value<span class="token operator">*</span><span class="token number">1e2</span><span class="token operator">+</span><span class="token number">0.5</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">1e-2</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
-cat &gt; ca-csr.json &lt;&lt;EOF
-&#123;
-    &quot;CN&quot;: &quot;kubernetes&quot;,
-    &quot;key&quot;: &#123;
-        &quot;algo&quot;: &quot;rsa&quot;,
-        &quot;size&quot;: 2048
-    &#125;,
-    &quot;names&quot;: [
-        &#123;
-            &quot;C&quot;: &quot;CN&quot;,
-            &quot;L&quot;: &quot;BeiJing&quot;,
-            &quot;ST&quot;: &quot;BeiJing&quot;,
-            &quot;O&quot;: &quot;k8s&quot;,
-            &quot;OU&quot;: &quot;System&quot;
-        &#125;
-    ]
-&#125;
-EOF
+<h4 id="分割字符串"><a href="#分割字符串" class="headerlink" title="分割字符串"></a>分割字符串</h4><pre class="line-numbers language-go" data-language="go"><code class="language-go">s1 <span class="token operator">:=</span> <span class="token string">"Shello-worldP"</span>
+s2 <span class="token operator">:=</span> s1<span class="token punctuation">[</span><span class="token number">1</span> <span class="token punctuation">:</span> <span class="token function">len</span><span class="token punctuation">(</span>s1<span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span>
+echo<span class="token punctuation">:</span> hello<span class="token operator">-</span>world<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
-cfssl gencert -initca ca-csr.json | cfssljson -bare ca
+<h4 id="字符串大小写"><a href="#字符串大小写" class="headerlink" title="字符串大小写"></a>字符串大小写</h4><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// ToUpper 将 s 中的所有字符修改为其大写格式</span>
+us <span class="token operator">:=</span> strings<span class="token punctuation">.</span><span class="token function">ToUpper</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+<span class="token comment">// ToLower 将 s 中的所有字符修改为其小写格式</span>
+ls <span class="token operator">:=</span> strings<span class="token punctuation">.</span><span class="token function">ToLower</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 
-cat &gt; server-csr.json &lt;&lt;EOF
-&#123;
-  &quot;CN&quot;: &quot;admission&quot;,
-  &quot;key&quot;: &#123;
-    &quot;algo&quot;: &quot;rsa&quot;,
-    &quot;size&quot;: 2048
-  &#125;,
-  &quot;names&quot;: [
-    &#123;
-        &quot;C&quot;: &quot;CN&quot;,
-        &quot;L&quot;: &quot;BeiJing&quot;,
-        &quot;ST&quot;: &quot;BeiJing&quot;,
-        &quot;O&quot;: &quot;k8s&quot;,
-        &quot;OU&quot;: &quot;System&quot;
-    &#125;
-  ]
-&#125;
-EOF
+<h4 id="切割字符串"><a href="#切割字符串" class="headerlink" title="切割字符串"></a>切割字符串</h4><pre class="line-numbers language-go" data-language="go"><code class="language-go"># strings<span class="token punctuation">.</span><span class="token function">Split</span><span class="token punctuation">(</span><span class="token punctuation">)</span>函数用于将指定的分隔符切割字符串，并返回切割后的字符串切片。
 
-cfssl gencert -ca&#x3D;ca.pem -ca-key&#x3D;ca-key.pem -config&#x3D;ca-config.json -hostname&#x3D;$2 -profile&#x3D;server server-csr.json | cfssljson -bare server
-
-echo &quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; ca.pem &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot;
-cat ca.pem
-echo &quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; server.pem &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot;
-cat server.pem
-echo &quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; server-key.pem &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot;
-cat server-key.pem<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+demo <span class="token operator">:=</span> <span class="token string">"I&amp;love&amp;Go,&amp;and&amp;I&amp;also&amp;love&amp;Python."</span>
+string_slice <span class="token operator">:=</span> strings<span class="token punctuation">.</span><span class="token function">Split</span><span class="token punctuation">(</span>demo<span class="token punctuation">,</span> <span class="token string">"&amp;"</span><span class="token punctuation">)</span>
+fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"result:"</span><span class="token punctuation">,</span>string_slice<span class="token punctuation">)</span>
+# result<span class="token punctuation">:</span> <span class="token punctuation">[</span>I love Go<span class="token punctuation">,</span> and I also love Python<span class="token punctuation">.</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
     </div>
 
     
@@ -352,17 +299,20 @@ cat server-key.pem<span aria-hidden="true" class="line-numbers-rows"><span></spa
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/k8s/" rel="tag"># k8s</a>
+              <a href="/tags/golang/" rel="tag"># golang</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
+                <a href="/2021/07/19/Golang%E8%BF%9E%E6%8E%A5Shell/" rel="prev" title="Golang连接Shell">
+                  <i class="fa fa-chevron-left"></i> Golang连接Shell
+                </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2021/07/19/%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AAsystemd%E6%9C%8D%E5%8A%A1/" rel="next" title="如何写一个systemd服务">
-                  如何写一个systemd服务 <i class="fa fa-chevron-right"></i>
+                <a href="/2021/07/19/Golang%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2/" rel="next" title="Golang类型转换">
+                  Golang类型转换 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>

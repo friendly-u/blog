@@ -4,7 +4,7 @@ title: Golang连接Shell
 date: 2021-07-19 18:40:36
 tags: golang
 ---
-Golang 连接 Redis
+Golang 连接 Shell
 <!-- more -->
 ```go
 func main() {
