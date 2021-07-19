@@ -2,7 +2,7 @@
 layout: post
 title: Golang连接Email
 date: 2021-07-19 18:21:56
-tags:
+tags: golang
 ---
 
 Golang 连接 Email

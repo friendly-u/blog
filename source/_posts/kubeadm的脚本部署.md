@@ -2,7 +2,7 @@
 layout: post
 title: kubeadm的脚本部署
 date: 2021-07-19 17:41:20
-tags:
+tags: k8s
 ---
 一键部署kubeadm脚本
 <!-- more -->
