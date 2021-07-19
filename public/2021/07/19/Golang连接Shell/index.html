@@ -20,25 +20,28 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Mist","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
-<meta name="description" content="Dogbrother的博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Dogbrother">
-<meta property="og:url" content="https://github.com/friendly-u/tags/golang/index.html">
+<meta name="description" content="Golang 连接 Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Golang连接Shell">
+<meta property="og:url" content="https://github.com/friendly-u/2021/07/19/Golang%E8%BF%9E%E6%8E%A5Shell/index.html">
 <meta property="og:site_name" content="Dogbrother">
-<meta property="og:description" content="Dogbrother的博客">
+<meta property="og:description" content="Golang 连接 Redis">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-07-19T10:40:36.000Z">
+<meta property="article:modified_time" content="2021-07-19T10:41:02.875Z">
 <meta property="article:author" content="Dogbrother">
+<meta property="article:tag" content="golang">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://github.com/friendly-u/tags/golang/">
+<link rel="canonical" href="https://github.com/friendly-u/2021/07/19/Golang%E8%BF%9E%E6%8E%A5Shell/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"tags/golang/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://github.com/friendly-u/2021/07/19/Golang%E8%BF%9E%E6%8E%A5Shell/","path":"2021/07/19/Golang连接Shell/","title":"Golang连接Shell"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>标签: golang | Dogbrother</title>
+<title>Golang连接Shell | Dogbrother</title>
   
 
 
@@ -211,130 +214,99 @@
 </noscript>
 
 
-    <div class="main-inner tag posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
-  
-  
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <h2 class="collection-header">golang
-          <small>标签</small>
-        </h2>
-      </div>
 
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/friendly-u/2021/07/19/Golang%E8%BF%9E%E6%8E%A5Shell/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dogbrother">
+      <meta itemprop="description" content="Dogbrother的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dogbrother">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Golang连接Shell
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
       
-    <div class="collection-year">
-      <span class="collection-header">2021</span>
+
+      <time title="创建时间：2021-07-19 18:40:36 / 修改时间：18:41:02" itemprop="dateCreated datePublished" datetime="2021-07-19T18:40:36+08:00">2021-07-19</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>Golang 连接 Redis</p>
+<span id="more"></span>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        command <span class="token operator">:=</span> <span class="token string">`./git-back.sh .`</span>
+        cmd <span class="token operator">:=</span> exec<span class="token punctuation">.</span><span class="token function">Command</span><span class="token punctuation">(</span><span class="token string">"/bin/bash"</span><span class="token punctuation">,</span> <span class="token string">"-c"</span><span class="token punctuation">,</span> command<span class="token punctuation">)</span>
+
+        err <span class="token operator">:=</span> cmd<span class="token punctuation">.</span><span class="token function">Run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+                fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Execute Command failed:"</span> <span class="token operator">+</span> err<span class="token punctuation">.</span><span class="token function">Error</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token keyword">return</span>
+        <span class="token punctuation">&#125;</span>
+
+        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"Execute Command finished."</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-07-19T18:40:36+08:00"
-              content="2021-07-19">
-          07-19
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/07/19/Golang%E8%BF%9E%E6%8E%A5Shell/" itemprop="url">
-            <span itemprop="name">Golang连接Shell</span>
-          </a>
-      </div>
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/golang/" rel="tag"># golang</a>
+          </div>
 
-      
-    </header>
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/07/19/Golang%E8%BF%9E%E6%8E%A5Email/" rel="prev" title="Golang连接Email">
+                  <i class="fa fa-chevron-left"></i> Golang连接Email
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
   </article>
+</div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-07-19T18:21:56+08:00"
-              content="2021-07-19">
-          07-19
-        </time>
-      </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/07/19/Golang%E8%BF%9E%E6%8E%A5Email/" itemprop="url">
-            <span itemprop="name">Golang连接Email</span>
-          </a>
-      </div>
 
-      
-    </header>
-  </article>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-07-19T18:20:52+08:00"
-              content="2021-07-19">
-          07-19
-        </time>
-      </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/07/19/Golang%E8%BF%9E%E6%8E%A5HTML/" itemprop="url">
-            <span itemprop="name">Golang连接 HTML</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-07-19T18:19:29+08:00"
-              content="2021-07-19">
-          07-19
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/07/19/Golang%E8%BF%9E%E6%8E%A5Redis/" itemprop="url">
-            <span itemprop="name">Golang连接Redis</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-07-19T17:47:04+08:00"
-              content="2021-07-19">
-          07-19
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/07/19/Golang%E8%BF%9E%E6%8E%A5Mysql/" itemprop="url">
-            <span itemprop="name">Golang连接Mysql</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-    </div>
-  </div>
-  
-  
-  
 
 </div>
   </main>
