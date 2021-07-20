@@ -2,7 +2,9 @@
 layout: post
 title: Minikube的安装使用
 date: 2021-07-20 14:14:42
-tags: k8s
+tags: 
+- k8s
+- 安装部署
 ---
 快速部署 minikube
 <!-- more -->

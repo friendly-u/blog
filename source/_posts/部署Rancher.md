@@ -2,7 +2,7 @@
 layout: post
 title: 部署Rancher
 date: 2021-07-20 14:44:34
-tags:
+tags: 安装部署
 ---
 
 rancer是一个多k8s集群管理工具
