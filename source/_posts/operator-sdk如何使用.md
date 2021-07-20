@@ -39,7 +39,7 @@ make manifests
 
 ##### 开发
 Operator SDK 为我们创建了一个快速启动的代码和相关配置，如果我们要开始处理相关的逻辑，我们可以在项目中搜索TODO(user)这个注释来实现我们自己的逻辑，比如在我的 VSCode 环境中，看上去是这样的：
-```
+```go
 func (r *MultiService4Reconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
     _ = log.FromContext(ctx)
 
