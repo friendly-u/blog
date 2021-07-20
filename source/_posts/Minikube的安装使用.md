@@ -4,7 +4,8 @@ title: Minikube的安装使用
 date: 2021-07-20 14:14:42
 tags: k8s
 ---
-
+快速部署 minikube
+<!-- more -->
 # Minikube安装使用
 在做k8s开发的时候受限于本地的性能以及复杂度不能搭建一个完整的k8s集群，这个时候需要minikube来搭建k8s开发环境
 
