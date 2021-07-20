@@ -933,3 +933,17 @@ vendors:
 css: css
 js: js
 images: images
+
+gitment:   
+  enable:  true
+  mint: true  
+  count: true 
+  lazy: false  						#评论懒加载，如果true，则默认不展示评论，点击按钮查看评论
+  cleanly: false
+  language:
+  github_user: lee.wang #github名称
+  github_repo: comment			#上一步新建存放评论的仓库名
+  client_id: Iv1.d81cc9dc2ca7329e			#上面注册 OAuth Application 的 Client ID
+  client_secret: #上面注册 OAuth Application 申请的 Client Secret
+  proxy_gateway: 
+  redirect_protocol: # Protocol of redirect_uri with force_redirect_protocol when mint
