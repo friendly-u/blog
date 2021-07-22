@@ -5,7 +5,7 @@ date: 2021-07-19 17:47:04
 tags: golang
 ---
 
-Golang 连接 Mysql
+Golang 打通 Mysql
 <!-- more -->
 
 注意：如果不使用 dn.Ping()，无法验证是否可以 ping 通 mysql

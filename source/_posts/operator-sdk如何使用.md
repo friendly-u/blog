@@ -5,8 +5,7 @@ date: 2021-07-20 14:30:49
 tags: 开发
 ---
 
-# operator-sdk 如何使用
-
+快速生成operator框架
 <!-- more -->
 
 ## 环境
@@ -81,7 +80,7 @@ spec:
 
 ## 监听的 cr 范围
 
-在 main.go 中的 ctrl.NewManage 处可以对其 NameSpace参数进行修改。""代表监听所有。
+在 main.go 中的 ctrl.NewManage 处可以对其 NameSpace参数进行修改。""代表监听所有。（如果没有可以之间新增NameSpace字段）
 
 ## 获取对应事件
 

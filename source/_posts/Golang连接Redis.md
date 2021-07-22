@@ -4,7 +4,7 @@ title: Golang连接Redis
 date: 2021-07-19 18:19:29
 tags: golang
 ---
-Golang 连接 Redis
+Golang 如何与 Redis 进行连接并操作
 <!-- more -->
 ```go
 package main
