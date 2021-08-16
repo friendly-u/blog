@@ -20,29 +20,28 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Mist","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
-<meta name="description" content="一键部署kubeadm脚本">
+<meta name="description" content="关于 gin 包的有效使用">
 <meta property="og:type" content="article">
-<meta property="og:title" content="kubeadm的脚本部署">
-<meta property="og:url" content="https://github.com/friendly-u/2021/07/19/kubeadm%E7%9A%84%E8%84%9A%E6%9C%AC%E9%83%A8%E7%BD%B2/index.html">
+<meta property="og:title" content="Golang web">
+<meta property="og:url" content="https://github.com/friendly-u/2021/07/19/Golang%20web%20gin/index.html">
 <meta property="og:site_name" content="Dogbrother">
-<meta property="og:description" content="一键部署kubeadm脚本">
+<meta property="og:description" content="关于 gin 包的有效使用">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-07-19T09:41:20.000Z">
-<meta property="article:modified_time" content="2021-07-20T06:46:39.797Z">
+<meta property="article:published_time" content="2021-07-19T09:40:06.000Z">
+<meta property="article:modified_time" content="2021-08-16T09:44:03.539Z">
 <meta property="article:author" content="Dogbrother">
-<meta property="article:tag" content="k8s">
-<meta property="article:tag" content="安装部署">
+<meta property="article:tag" content="golang">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://github.com/friendly-u/2021/07/19/kubeadm%E7%9A%84%E8%84%9A%E6%9C%AC%E9%83%A8%E7%BD%B2/">
+<link rel="canonical" href="https://github.com/friendly-u/2021/07/19/Golang%20web%20gin/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://github.com/friendly-u/2021/07/19/kubeadm%E7%9A%84%E8%84%9A%E6%9C%AC%E9%83%A8%E7%BD%B2/","path":"2021/07/19/kubeadm的脚本部署/","title":"kubeadm的脚本部署"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://github.com/friendly-u/2021/07/19/Golang%20web%20gin/","path":"2021/07/19/Golang web gin/","title":"Golang web"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>kubeadm的脚本部署 | Dogbrother</title>
+<title>Golang web | Dogbrother</title>
   
 
 
@@ -136,7 +135,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -149,6 +148,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E-Post-%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">关于 Post 的使用</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -226,7 +226,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://github.com/friendly-u/2021/07/19/kubeadm%E7%9A%84%E8%84%9A%E6%9C%AC%E9%83%A8%E7%BD%B2/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/friendly-u/2021/07/19/Golang%20web%20gin/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -239,7 +239,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          kubeadm的脚本部署
+          Golang web
         </h1>
 
         <div class="post-meta-container">
@@ -250,14 +250,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2021-07-19 17:41:20" itemprop="dateCreated datePublished" datetime="2021-07-19T17:41:20+08:00">2021-07-19</time>
+      <time title="创建时间：2021-07-19 17:40:06" itemprop="dateCreated datePublished" datetime="2021-07-19T17:40:06+08:00">2021-07-19</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-07-20 14:46:39" itemprop="dateModified" datetime="2021-07-20T14:46:39+08:00">2021-07-20</time>
+        <time title="修改时间：2021-08-16 17:44:03" itemprop="dateModified" datetime="2021-08-16T17:44:03+08:00">2021-08-16</time>
       </span>
 
   
@@ -270,151 +270,38 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>一键部署kubeadm脚本</p>
+        <p>关于 gin 包的有效使用</p>
 <span id="more"></span>
 
-<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh"># master: 安装docker、kubeadm、kubectl、kubelet、flannel
+<h4 id="关于-Post-的使用"><a href="#关于-Post-的使用" class="headerlink" title="关于 Post 的使用"></a>关于 Post 的使用</h4><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main
 
-if (( $# !&#x3D; 1 )); then
-  echo -e &quot;\033[31m参数个数有误，请重新输入\033[0m&quot;
-  echo -e &quot;\033[31m脚本为安装kubeadm使用，你可以通过参数来选择node节点、master节点\033[0m&quot;
-  return 0 
-fi
-###############
-#   docker    #
-###############
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+	<span class="token string">"fmt"</span>
+	<span class="token string">"net/http"</span>
 
-# 安装依赖包
-sudo yum install -y yum-utils
+	<span class="token string">"github.com/gin-gonic/gin"</span>
+<span class="token punctuation">)</span>
 
-# 鉴于国内网络问题，强烈建议使用国内源，官方源请在注释中查看。
-# 执行下面的命令添加 yum 软件源
-sudo yum-config-manager \
-    --add-repo \
-    https:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;docker-ce&#x2F;linux&#x2F;centos&#x2F;docker-ce.repo
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	r <span class="token operator">:=</span> gin<span class="token punctuation">.</span><span class="token function">New</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	r<span class="token punctuation">.</span><span class="token function">POST</span><span class="token punctuation">(</span><span class="token string">"/posts"</span><span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span>c <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+		id <span class="token operator">:=</span> c<span class="token punctuation">.</span><span class="token function">Query</span><span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">)</span>
+		page <span class="token operator">:=</span> c<span class="token punctuation">.</span><span class="token function">DefaultQuery</span><span class="token punctuation">(</span><span class="token string">"page"</span><span class="token punctuation">,</span> <span class="token string">"0"</span><span class="token punctuation">)</span>
+		username <span class="token operator">:=</span> c<span class="token punctuation">.</span><span class="token function">PostForm</span><span class="token punctuation">(</span><span class="token string">"username"</span><span class="token punctuation">)</span>
+		password <span class="token operator">:=</span> c<span class="token punctuation">.</span><span class="token function">DefaultPostForm</span><span class="token punctuation">(</span><span class="token string">"username"</span><span class="token punctuation">,</span> <span class="token string">"000000"</span><span class="token punctuation">)</span> <span class="token comment">// 可设置默认值</span>
+		fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"-------"</span><span class="token punctuation">)</span>
+		c<span class="token punctuation">.</span><span class="token function">JSON</span><span class="token punctuation">(</span>http<span class="token punctuation">.</span>StatusOK<span class="token punctuation">,</span> gin<span class="token punctuation">.</span>H<span class="token punctuation">&#123;</span>
+			<span class="token string">"id"</span><span class="token punctuation">:</span>       id<span class="token punctuation">,</span>
+			<span class="token string">"page"</span><span class="token punctuation">:</span>     page<span class="token punctuation">,</span>
+			<span class="token string">"username"</span><span class="token punctuation">:</span> username<span class="token punctuation">,</span>
+			<span class="token string">"password"</span><span class="token punctuation">:</span> password<span class="token punctuation">,</span>
+		<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+	r<span class="token punctuation">.</span><span class="token function">Run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-sudo sed -i &#39;s&#x2F;download.docker.com&#x2F;mirrors.aliyun.com\&#x2F;docker-ce&#x2F;g&#39; &#x2F;etc&#x2F;yum.repos.d&#x2F;docker-ce.repo
-
-# 官方源
-# $ sudo yum-config-manager \
-#     --add-repo \
-#     https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;centos&#x2F;docker-ce.repo
-
-
-# 更新 yum 软件源缓存，并安装 docker-ce
-sudo yum install -y docker-ce docker-ce-cli containerd.io
-
-# 测试 Docker 是否安装正确
-# docker run --rm hello-world
-
-# 阿里云镜像加速
-mkdir -p &#x2F;etc&#x2F;docker
-cat &gt;&#x2F;etc&#x2F;docker&#x2F;daemon.json &lt;&lt; EOF
-&#123;
-  &quot;registry-mirrors&quot;: [&quot;https:&#x2F;&#x2F;9yepy6z6.mirror.aliyuncs.com&quot;]
-&#125;
-EOF
-
-# 启动 Docker
-sudo systemctl enable docker
-sudo systemctl start docker
-sudo systemctl status docker
-# sudo systemctl daemon-reload
-# sudo systemctl restart docker
-
-
-###############
-#   kubeadm   #
-###############
-
-# 关闭 swap 分区
-swapoff  -a
-sed -ri &#39;s&#x2F;.*swap.*&#x2F;#&amp;&#x2F;&#39; &#x2F;etc&#x2F;fstab
-
-# 安装 kubelet kubeadm kubectl
-cat &lt;&lt;EOF | sudo tee &#x2F;etc&#x2F;yum.repos.d&#x2F;kubernetes.repo
-[kubernetes]
-name&#x3D;Kubernetes
-baseurl&#x3D;https:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;kubernetes&#x2F;yum&#x2F;repos&#x2F;kubernetes-el7-x86_64&#x2F;
-enabled&#x3D;1
-gpgcheck&#x3D;1
-repo_gpgcheck&#x3D;1
-gpgkey&#x3D;https:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;kubernetes&#x2F;yum&#x2F;doc&#x2F;yum-key.gpg https:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;kubernetes&#x2F;yum&#x2F;doc&#x2F;rpm-package-key.gpg
-EOF
-
-sudo yum install -y kubelet kubeadm kubectl
-
-# 修改内核的运行参数
-cat &lt;&lt;EOF | sudo tee &#x2F;etc&#x2F;sysctl.d&#x2F;99-kubernetes-cri.conf
-net.bridge.bridge-nf-call-iptables  &#x3D; 1
-net.ipv4.ip_forward                 &#x3D; 1
-net.bridge.bridge-nf-call-ip6tables &#x3D; 1
-EOF
-
-sysctl --system
-
-systemctl start kubelet.service
-# 这里可能没有kubelet.service.d目录，可以手动创建
-cd &#x2F;etc&#x2F;systemd&#x2F;system
-mkdir kubelet.service.d
-cat &gt; &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;kubelet.service.d&#x2F;10-proxy-ipvs.conf &lt;&lt;EOF
-# 启用 ipvs 相关内核模块
-[Service]
-ExecStartPre&#x3D;-&#x2F;sbin&#x2F;modprobe ip_vs
-ExecStartPre&#x3D;-&#x2F;sbin&#x2F;modprobe ip_vs_rr
-ExecStartPre&#x3D;-&#x2F;sbin&#x2F;modprobe ip_vs_wrr
-ExecStartPre&#x3D;-&#x2F;sbin&#x2F;modprobe ip_vs_sh
-EOF
-
-
-###############
-#     部署     #
-###############
-
-# master
-if [ $1 &#x3D;&#x3D; &quot;master&quot; ]; then
-# --pod-network-cidr 10.244.0.0&#x2F;16 参数与后续 CNI 插件有关，这里以 flannel 为例，若后续部署其他类型的网络插件请更改此参数。
-# 执行可能出现错误，例如缺少依赖包，根据提示安装即可。
-sudo kubeadm init --image-repository registry.cn-hangzhou.aliyuncs.com&#x2F;google_containers \
-      --pod-network-cidr 10.244.0.0&#x2F;16 \
-      --v 5 \
-      --ignore-preflight-errors&#x3D;all
-
-# 部署 CNI
-# 这里以 flannel 为例进行介绍。
-# flannel
-curl -O https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;coreos&#x2F;flannel&#x2F;master&#x2F;Documentation&#x2F;kube-flannel.yml
-kubectl apply -f  kube-flannel.yml
-
-
-# 使用kubectl访问集群
-mkdir -p $HOME&#x2F;.kube
-cp -i &#x2F;etc&#x2F;kubernetes&#x2F;admin.conf $HOME&#x2F;.kube&#x2F;config
-
-###############
-#   flannel   #
-###############
-curl -O https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;coreos&#x2F;flannel&#x2F;master&#x2F;Documentation&#x2F;kube-flannel.yml
-kubectl apply -f  kube-flannel.yml
-# 这里注意kube-flannel.yml这个文件里的flannel的镜像是0.11.0，quay.io&#x2F;coreos&#x2F;flannel:v0.11.0-amd64
-
-elif [ $1 &#x3D;&#x3D; &quot;node&quot; ]; then
-modprobe br_netfilter
-echo 1 &gt; &#x2F;proc&#x2F;sys&#x2F;net&#x2F;bridge&#x2F;bridge-nf-call-iptables
-echo 1 &gt; &#x2F;proc&#x2F;sys&#x2F;net&#x2F;ipv4&#x2F;ip_forward
-
-kubeadm join 10.23.239.33:6443 --token enmicf.mfsf34hx54swtrkr \
-    --discovery-token-ca-cert-hash sha256:0456ad35df4cbff8d5ca6ced7f34cc21c3ed4e3674989eb2e4545e55ec252f00
-fi
-
-
-# 执行以下命令应用配置。
-sudo systemctl daemon-reload
-
-systemctl enable kubelet.service
-systemctl restart kubelet.service
-systemctl status kubelet.service
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">$ curl &quot;http:&#x2F;&#x2F;localhost:9999&#x2F;posts?id&#x3D;9876&amp;page&#x3D;7&quot;  -X POST -d &#39;username&#x3D;geektutu&amp;password&#x3D;1234&#39;
+&#123;&quot;id&quot;:&quot;9876&quot;,&quot;page&quot;:&quot;7&quot;,&quot;password&quot;:&quot;1234&quot;,&quot;username&quot;:&quot;geektutu&quot;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
     </div>
 
     
@@ -423,21 +310,20 @@ systemctl status kubelet.service
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/k8s/" rel="tag"># k8s</a>
-              <a href="/tags/%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/" rel="tag"># 安装部署</a>
+              <a href="/tags/golang/" rel="tag"># golang</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2021/07/19/Golang%20web%20gin/" rel="prev" title="Golang web">
-                  <i class="fa fa-chevron-left"></i> Golang web
+                <a href="/2021/07/19/%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E4%B8%AAsystemd%E6%9C%8D%E5%8A%A1/" rel="prev" title="如何写一个systemd服务">
+                  <i class="fa fa-chevron-left"></i> 如何写一个systemd服务
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2021/07/19/Golang%E8%BF%9E%E6%8E%A5Mysql/" rel="next" title="Golang连接Mysql">
-                  Golang连接Mysql <i class="fa fa-chevron-right"></i>
+                <a href="/2021/07/19/kubeadm%E7%9A%84%E8%84%9A%E6%9C%AC%E9%83%A8%E7%BD%B2/" rel="next" title="kubeadm的脚本部署">
+                  kubeadm的脚本部署 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
