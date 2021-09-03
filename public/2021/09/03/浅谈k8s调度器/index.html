@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/title.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/title.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Mist","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
+<meta name="description" content="kube-scheduler 目前常见的修改方法有extender和framework，其中extender较为简单，framework今后将为主流。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈k8s调度器">
+<meta property="og:url" content="https://github.com/friendly-u/2021/09/03/%E6%B5%85%E8%B0%88k8s%E8%B0%83%E5%BA%A6%E5%99%A8/index.html">
+<meta property="og:site_name" content="Dogbrother">
+<meta property="og:description" content="kube-scheduler 目前常见的修改方法有extender和framework，其中extender较为简单，framework今后将为主流。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-09-03T15:36:42.000Z">
+<meta property="article:modified_time" content="2021-09-03T16:06:50.381Z">
+<meta property="article:author" content="Dogbrother">
+<meta property="article:tag" content="k8s">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/friendly-u/2021/09/03/%E6%B5%85%E8%B0%88k8s%E8%B0%83%E5%BA%A6%E5%99%A8/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://github.com/friendly-u/2021/09/03/%E6%B5%85%E8%B0%88k8s%E8%B0%83%E5%BA%A6%E5%99%A8/","path":"2021/09/03/浅谈k8s调度器/","title":"浅谈k8s调度器"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>浅谈k8s调度器 | Dogbrother</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Dogbrother</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">嘿嘿嘿</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#extender"><span class="nav-number">1.</span> <span class="nav-text">extender</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E8%AF%B4%E6%98%8E"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">环境说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E8%B0%83%E5%BA%A6-yaml-etc-kubernetes-scheduler-config-yaml"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">创建自定义调度 yaml(&#x2F;etc&#x2F;kubernetes&#x2F;scheduler-config.yaml)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E8%B0%83%E5%BA%A6%E6%96%87%E4%BB%B6-etc-kubernetes-scheduler-policy-yaml"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">创建自定义调度文件 (&#x2F;etc&#x2F;kubernetes&#x2F;scheduler-policy.yaml)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#kube-scheduler-%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">kube-scheduler 设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#golang%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.0.0.6.</span> <span class="nav-text">golang代码示例</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dogbrother</p>
+  <div class="site-description" itemprop="description">Dogbrother的博客</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/friendly-u" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;friendly-u"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/80645979@qq.com" title="E-Mail → 80645979@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/friendly-u/2021/09/03/%E6%B5%85%E8%B0%88k8s%E8%B0%83%E5%BA%A6%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dogbrother">
+      <meta itemprop="description" content="Dogbrother的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dogbrother">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          浅谈k8s调度器
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-09-03 23:36:42" itemprop="dateCreated datePublished" datetime="2021-09-03T23:36:42+08:00">2021-09-03</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-09-04 00:06:50" itemprop="dateModified" datetime="2021-09-04T00:06:50+08:00">2021-09-04</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>kube-scheduler 目前常见的修改方法有extender和framework，其中extender较为简单，framework今后将为主流。</p>
+<span id="more"></span>
+<h1 id="extender"><a href="#extender" class="headerlink" title="extender"></a>extender</h1><h4 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h4><p>通过kubeadm搭建的k8s版本 v1.15.2</p>
+<pre class="line-numbers language-none"><code class="language-none">yum install -y kubelet-1.15.2-0 kubeadm-1.15.2-0 kubectl-1.15.2-0
+sudo kubeadm init --kubernetes-version&#x3D;v1.15.2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h4 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h4><p>使k8s在为pod选择节点时经过自己写的extender</p>
+<h4 id="创建自定义调度-yaml-etc-kubernetes-scheduler-config-yaml"><a href="#创建自定义调度-yaml-etc-kubernetes-scheduler-config-yaml" class="headerlink" title="创建自定义调度 yaml(/etc/kubernetes/scheduler-config.yaml)"></a>创建自定义调度 yaml(/etc/kubernetes/scheduler-config.yaml)</h4><pre class="line-numbers language-yml" data-language="yml"><code class="language-yml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> kubescheduler.config.k8s.io/v1alpha1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> KubeSchedulerConfiguration
+<span class="token key atrule">clientConnection</span><span class="token punctuation">:</span>
+  <span class="token key atrule">kubeconfig</span><span class="token punctuation">:</span> <span class="token string">"/etc/kubernetes/scheduler.conf"</span>      <span class="token comment"># kubeadm 默认将kube-scheduler对config文件放在该路径，不用更改</span>
+<span class="token key atrule">algorithmSource</span><span class="token punctuation">:</span>
+  <span class="token key atrule">policy</span><span class="token punctuation">:</span>
+    <span class="token key atrule">file</span><span class="token punctuation">:</span>
+      <span class="token key atrule">path</span><span class="token punctuation">:</span> <span class="token string">"/etc/kubernetes/scheduler-policy.yaml"</span>  <span class="token comment"># 指定自定义调度策略文件</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="创建自定义调度文件-etc-kubernetes-scheduler-policy-yaml"><a href="#创建自定义调度文件-etc-kubernetes-scheduler-policy-yaml" class="headerlink" title="创建自定义调度文件 (/etc/kubernetes/scheduler-policy.yaml)"></a>创建自定义调度文件 (/etc/kubernetes/scheduler-policy.yaml)</h4><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Policy
+<span class="token key atrule">extenders</span><span class="token punctuation">:</span>
+<span class="token punctuation">-</span> <span class="token key atrule">urlPrefix</span><span class="token punctuation">:</span> <span class="token string">"http://127.0.0.1:8888/"</span> <span class="token comment"># extender 的监听地址，后面会介绍对应go代码</span>
+  <span class="token key atrule">filterVerb</span><span class="token punctuation">:</span> <span class="token string">"filter"</span>                <span class="token comment"># extender filterVerb 路径</span>
+ <span class="token comment"># prioritizeVerb: "prioritize"       # 本文只以filterVerb作为示例</span>
+  <span class="token key atrule">weight</span><span class="token punctuation">:</span> <span class="token number">1</span>
+  <span class="token key atrule">enableHttps</span><span class="token punctuation">:</span> <span class="token boolean important">false</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="kube-scheduler-设置"><a href="#kube-scheduler-设置" class="headerlink" title="kube-scheduler 设置"></a>kube-scheduler 设置</h4><p>因为是kubeadm搭建，默认kube-scheduler为静态pod创建，我们需要修改其启动参数，对启动参数增加config配置（默认config参数为空。同时修改了原有的挂载路径,将/etc/kubernetes路径挂载到pod（目的是将scheduler.conf、scheduler-config.yaml、scheduler-policy.yaml给pod使用）。</p>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Pod
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">creationTimestamp</span><span class="token punctuation">:</span> <span class="token null important">null</span>
+  <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+    <span class="token key atrule">component</span><span class="token punctuation">:</span> kube<span class="token punctuation">-</span>scheduler
+    <span class="token key atrule">tier</span><span class="token punctuation">:</span> control<span class="token punctuation">-</span>plane
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> kube<span class="token punctuation">-</span>scheduler
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> kube<span class="token punctuation">-</span>system
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">command</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> kube<span class="token punctuation">-</span>scheduler
+    <span class="token punctuation">-</span> <span class="token punctuation">-</span><span class="token punctuation">-</span>bind<span class="token punctuation">-</span>address=127.0.0.1
+    <span class="token punctuation">-</span> <span class="token punctuation">-</span><span class="token punctuation">-</span>config=/etc/kubernetes/scheduler<span class="token punctuation">-</span>config.yaml
+    <span class="token punctuation">-</span> <span class="token punctuation">-</span><span class="token punctuation">-</span>kubeconfig=/etc/kubernetes/scheduler.conf
+    <span class="token punctuation">-</span> <span class="token punctuation">-</span><span class="token punctuation">-</span>leader<span class="token punctuation">-</span>elect=true
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> registry.cn<span class="token punctuation">-</span>hangzhou.aliyuncs.com/google_containers/kube<span class="token punctuation">-</span>scheduler<span class="token punctuation">:</span>v1.15.2
+    <span class="token key atrule">imagePullPolicy</span><span class="token punctuation">:</span> IfNotPresent
+    <span class="token key atrule">livenessProbe</span><span class="token punctuation">:</span>
+      <span class="token key atrule">failureThreshold</span><span class="token punctuation">:</span> <span class="token number">8</span>
+      <span class="token key atrule">httpGet</span><span class="token punctuation">:</span>
+        <span class="token key atrule">host</span><span class="token punctuation">:</span> 127.0.0.1
+        <span class="token key atrule">path</span><span class="token punctuation">:</span> /healthz
+        <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">10251</span>
+        <span class="token key atrule">scheme</span><span class="token punctuation">:</span> HTTP
+      <span class="token key atrule">initialDelaySeconds</span><span class="token punctuation">:</span> <span class="token number">15</span>
+      <span class="token key atrule">timeoutSeconds</span><span class="token punctuation">:</span> <span class="token number">15</span>
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> kube<span class="token punctuation">-</span>scheduler
+    <span class="token key atrule">resources</span><span class="token punctuation">:</span>
+      <span class="token key atrule">requests</span><span class="token punctuation">:</span>
+        <span class="token key atrule">cpu</span><span class="token punctuation">:</span> 100m
+    <span class="token key atrule">volumeMounts</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">mountPath</span><span class="token punctuation">:</span> /etc/kubernetes
+      <span class="token key atrule">name</span><span class="token punctuation">:</span> k8s<span class="token punctuation">-</span>dir
+      <span class="token key atrule">readOnly</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+  <span class="token key atrule">hostNetwork</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+  <span class="token key atrule">priorityClassName</span><span class="token punctuation">:</span> system<span class="token punctuation">-</span>cluster<span class="token punctuation">-</span>critical
+  <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">hostPath</span><span class="token punctuation">:</span>
+      <span class="token key atrule">path</span><span class="token punctuation">:</span> /etc/kubernetes
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> k8s<span class="token punctuation">-</span>dir
+<span class="token key atrule">status</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="golang代码示例"><a href="#golang代码示例" class="headerlink" title="golang代码示例"></a>golang代码示例</h4><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+	<span class="token string">"net/http"</span>
+
+	log <span class="token string">"github.com/gogap/logrus"</span>
+	<span class="token string">"github.com/julienschmidt/httprouter"</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	router <span class="token operator">:=</span> httprouter<span class="token punctuation">.</span><span class="token function">New</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	router<span class="token punctuation">.</span><span class="token function">POST</span><span class="token punctuation">(</span><span class="token string">"/filter"</span><span class="token punctuation">,</span> filter<span class="token punctuation">)</span>
+	log<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>http<span class="token punctuation">.</span><span class="token function">ListenAndServe</span><span class="token punctuation">(</span><span class="token string">":8888"</span><span class="token punctuation">,</span> router<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">func</span> <span class="token function">filter</span><span class="token punctuation">(</span>w http<span class="token punctuation">.</span>ResponseWriter<span class="token punctuation">,</span> r <span class="token operator">*</span>http<span class="token punctuation">.</span>Request<span class="token punctuation">,</span> params httprouter<span class="token punctuation">.</span>Params<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	log<span class="token punctuation">.</span><span class="token function">Info</span><span class="token punctuation">(</span><span class="token string">"================================="</span><span class="token punctuation">)</span>
+	log<span class="token punctuation">.</span><span class="token function">Info</span><span class="token punctuation">(</span><span class="token string">"start filter"</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>编译：GOOS=linux GOARCH=amd64 CGO_ENABLED=0 GOFLAGS=-mod=vendor go build -o scheduler main.go<br>在master运行scheduler二进制文件，同时创建pod会看到如下日志。<pre class="line-numbers language-go" data-language="go"><code class="language-go">INFO<span class="token punctuation">[</span><span class="token number">0161</span><span class="token punctuation">]</span> <span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">=</span>
+INFO<span class="token punctuation">[</span><span class="token number">0161</span><span class="token punctuation">]</span> start filter<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/k8s/" rel="tag"># k8s</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/08/16/Golang%20web%20gin/" rel="prev" title="Golang web">
+                  <i class="fa fa-chevron-left"></i> Golang web
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dogbrother</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
+</html>
